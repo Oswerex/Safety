@@ -1,201 +1,217 @@
 <!DOCTYPE html>
 <html lang="fil">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Safety Training with Assessment</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Safety Training with Assessment</title>
 
-  <style>
-    :root { --primary:#0b5fff; --danger:#cc0033; --success:#1a7f37; --muted:#666; }
-    body { font-family: Arial, sans-serif; margin: 20px; line-height: 1.5; }
-    .container { max-width: 900px; margin: 0 auto; }
-    .card { border: 1px solid #ddd; border-radius: 8px; padding: 16px; margin-top: 16px; }
-    .hidden { display: none; }
-    .btn { padding: 10px 16px; border: none; border-radius: 6px; cursor: pointer; font-weight: 600; }
+<style>
+    :root {
+        --primary:#0b5fff;
+        --danger:#cc0033;
+        --success:#1a7f37;
+        --muted:#666;
+        --card-bg:#ffffff;
+        --bg:#f2f4f7;
+    }
+
+    body {
+        background: var(--bg);
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        line-height: 1.5;
+    }
+
+    .container {
+        max-width: 900px;
+        margin: auto;
+    }
+
+    .card {
+        background: var(--card-bg);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+        margin-top: 20px;
+    }
+
+    .hidden { display:none; }
+
+    .btn {
+        padding: 10px 16px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+    }
     .btn-primary { background: var(--primary); color:#fff; }
-    .btn-muted { background:#eee; color:#333; }
-    .result-pass { color: var(--success); font-weight: bold; }
-    .result-fail { color: var(--danger); font-weight: bold; }
-    .hint { color: var(--muted); font-size: 0.9em; }
-    input[type="text"] { padding: 8px; border: 1px solid #ccc; border-radius: 6px; width: 280px; }
+    .btn-muted { background:#e5e5e5; color:#333; }
 
-    .video-container { position: relative; width: 100%; max-width: 800px; }
-    .video-container::before { content:""; display:block; padding-top:56.25%; }
-    .video-container > iframe { position:absolute; top:0; left:0; width:100%; height:100%; border:0; border-radius:8px; }
+    input[type="text"] {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        width: 250px;
+    }
 
-    .question { font-weight: 600; }
-    .question-block { margin-bottom: 14px; }
-  </style>
+    .video-container {
+        position: relative;
+        width: 100%;
+        padding-top: 56.25%;
+    }
+    .video-container iframe {
+        position: absolute;
+        top:0; left:0;
+        width:100%; height:100%;
+        border:0;
+        border-radius:10px;
+    }
 
-  <!-- jsPDF for certificate -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    .question { font-weight: 600; margin-bottom: 6px; }
+    .question-block { margin-bottom: 18px; }
+
+    h2, h3 { margin-top: 0; }
+</style>
+
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
 </head>
-
 <body>
 <div class="container">
 
-  <h2>Safety Video Orientation</h2>
-  <p class="hint">⚠️ Note: Kailangan naka-sign in sa Meralco account para gumana ang video.</p>
+<h2>Safety Training Module</h2>
 
-  <!-- =========================
-       📌 FIXED & CLEAN IFRAME
-  ========================== -->
-  <div class="video-container card">
-    <iframe
-      src="https://meralco-my.sharepoint.com/personal/jgleguro_meralco_com_ph/_layouts/15/embed.aspx?UniqueId=512b6530-6fc4-4e0a-bb8e-9d2042fcacd1&embed=%7B%22ust%22%3Afalse%2C%22hv%22%3A%22CopyEmbedCode%22%7D"
-      frameborder="0"
-      allowfullscreen
-      scrolling="no"
-      title="Safety Video"
-    ></iframe>
-
-    <div class="hint" style="margin-top:10px;">
-      <label><input type="checkbox" id="watchedChk"> I confirm I watched the video.</label>
+<div class="card video-card">
+    <h3>Watch the Safety Orientation Video</h3>
+    <div class="video-container">
+        <iframe src="https://meralco-my.sharepoint.com/personal/jgleguro_meralco_com_ph/_layouts/15/embed.aspx?UniqueId=512b6530-6fc4-4e0a-bb8e-9d2042fcacd1&embed=%7B%22ust%22%3Afalse%2C%22hv%22%3A%22CopyEmbedCode%22%7D"
+                allowfullscreen>
+        </iframe>
     </div>
-  </div>
 
-  <div class="card">
+    <div style="margin-top:12px;">
+        <label>
+            <input type="checkbox" id="watchedChk"> I confirm that I watched the video.
+        </label>
+    </div>
+</div>
+
+<div class="card">
     <button id="startBtn" class="btn btn-primary" disabled>Start Assessment</button>
     <button id="resetBtn" class="btn btn-muted hidden">Reset</button>
-  </div>
+</div>
 
-  <div id="assessment" class="card hidden">
+
+<!-- ASSESSMENT -->
+<div id="assessment" class="card hidden">
     <h3>Assessment</h3>
 
     <div class="question-block">
-      <label class="question">1. Anong kulay ng helmet sa video?</label><br />
-      <label><input type="radio" name="q1" value="Yellow"> Yellow</label><br />
-      <label><input type="radio" name="q1" value="Red"> Red</label>
+        <label class="question">1. Ano ang maximum speed limit sa loob ng Meralco Operating Center?</label><br>
+        <label><input type="radio" name="q1" value="20 kph"> 20 kph</label><br>
+        <label><input type="radio" name="q1" value="30 kph"> 30 kph</label><br>
+        <label><input type="radio" name="q1" value="40 kph"> 40 kph</label>
     </div>
 
     <div class="question-block">
-      <label class="question">2. Ilan ang fire extinguisher na lumitaw sa video?</label><br />
-      <label><input type="radio" name="q2" value="9"> 9</label><br />
-      <label><input type="radio" name="q2" value="5"> 5</label>
+        <label class="question">2. Meralco is a (________) facility.</label><br>
+        <label><input type="radio" name="q2" value="Smoke-free"> Smoke-free</label><br>
+        <label><input type="radio" name="q2" value="Pet-friendly"> Pet-friendly</label>
     </div>
 
     <div class="question-block">
-      <label class="question">3. Ano ang bumagsak sa helmet?</label><br />
-      <label><input type="radio" name="q3" value="bakal"> Bakal</label><br />
-      <label><input type="radio" name="q3" value="kahoy"> Kahoy</label>
+        <label class="question">3. Follow (______) when using a fire extinguisher.</label><br>
+        <label><input type="radio" name="q3" value="P.A.S.S"> P.A.S.S</label><br>
+        <label><input type="radio" name="q3" value="S.O.P"> S.O.P</label>
     </div>
 
-    <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
-      <label class="question">Ilagay ang pangalan ng Trainee:</label>
-      <input type="text" id="traineeName" placeholder="Juan Dela Cruz" />
+    <div class="question-block">
+        <label class="question">4. (______) trash bins are designated for used facemasks and tissues.</label><br>
+        <label><input type="radio" name="q4" value="Biohazard"> Biohazard</label><br>
+        <label><input type="radio" name="q4" value="Recyclable"> Recyclable</label>
     </div>
 
-    <div style="margin-top: 16px;">
-      <button id="submitBtn" class="btn btn-primary">Submit</button>
-      <button id="retakeBtn" class="btn btn-muted hidden">Retake Assessment</button>
+    <div class="question-block">
+        <label class="question">5. Ilagay ang pangalan ng Trainee:</label><br>
+        <input type="text" id="traineeName" placeholder="Juan Dela Cruz">
     </div>
-  </div>
 
-  <div id="result" class="card hidden"></div>
+    <button id="submitBtn" class="btn btn-primary">Submit</button>
+    <button id="retakeBtn" class="btn btn-muted hidden">Retake Assessment</button>
+</div>
+
+<div id="result" class="card hidden"></div>
 
 </div>
 
+
 <script>
-  const watchedChk = document.getElementById('watchedChk');
-  const startBtn = document.getElementById('startBtn');
-  const resetBtn = document.getElementById('resetBtn');
-  const assessment = document.getElementById('assessment');
-  const submitBtn = document.getElementById('submitBtn');
-  const retakeBtn = document.getElementById('retakeBtn');
-  const resultDiv = document.getElementById('result');
+const watchedChk = document.getElementById('watchedChk');
+const startBtn = document.getElementById('startBtn');
+const assessment = document.getElementById('assessment');
+const resetBtn = document.getElementById('resetBtn');
+const submitBtn = document.getElementById('submitBtn');
+const retakeBtn = document.getElementById('retakeBtn');
+const resultDiv = document.getElementById('result');
 
-  watchedChk.addEventListener('change', () => {
+watchedChk.addEventListener('change', () => {
     startBtn.disabled = !watchedChk.checked;
-  });
+});
 
-  startBtn.addEventListener('click', () => {
+startBtn.addEventListener('click', () => {
     assessment.classList.remove('hidden');
     resetBtn.classList.remove('hidden');
-    startBtn.disabled = true;
     resultDiv.classList.add('hidden');
-    resultDiv.innerHTML = '';
-  });
+});
 
-  resetBtn.addEventListener('click', resetAll);
-  retakeBtn.addEventListener('click', resetAll);
+resetBtn.addEventListener('click', resetAll);
+retakeBtn.addEventListener('click', resetAll);
 
-  function resetAll() {
-    ['q1','q2','q3'].forEach(n => {
-      const c = document.querySelector(`input[name="${n}"]:checked`);
-      if (c) c.checked = false;
+function resetAll() {
+    ["q1","q2","q3","q4"].forEach(q => {
+        let checked = document.querySelector(`input[name="${q}"]:checked`);
+        if (checked) checked.checked = false;
     });
-
-    document.getElementById('traineeName').value = '';
+    document.getElementById('traineeName').value = "";
+    resultDiv.innerHTML = "";
     resultDiv.classList.add('hidden');
-    resultDiv.innerHTML = '';
-    retakeBtn.classList.add('hidden');
-    startBtn.disabled = !watchedChk.checked;
-  }
+}
 
-  submitBtn.addEventListener('click', () => {
+submitBtn.addEventListener('click', () => {
     let score = 0;
 
-    if (document.querySelector('input[name="q1"]:checked')?.value === 'Yellow') score++;
-    if (document.querySelector('input[name="q2"]:checked')?.value === '9') score++;
-    if (document.querySelector('input[name="q3"]:checked')?.value === 'bakal') score++;
+    if (document.querySelector('input[name="q1"]:checked')?.value === "30 kph") score++;
+    if (document.querySelector('input[name="q2"]:checked')?.value === "Smoke-free") score++;
+    if (document.querySelector('input[name="q3"]:checked')?.value === "P.A.S.S") score++;
+    if (document.querySelector('input[name="q4"]:checked')?.value === "Biohazard") score++;
 
-    const name = document.getElementById('traineeName').value.trim();
+    let name = document.getElementById('traineeName').value.trim();
+    if (!name) return alert("Pakilagay ang pangalan.");
 
-    if (!name) return alert('Pakilagay ang pangalan.');
-    if (!document.querySelector('input[name="q1"]:checked')
-     || !document.querySelector('input[name="q2"]:checked')
-     || !document.querySelector('input[name="q3"]:checked')) {
-      return alert('Sagutan ang lahat ng tanong.');
-    }
-
-    resultDiv.classList.remove('hidden');
-
-    if (score === 3) {
-      resultDiv.innerHTML = `<h3 class="result-pass">PASADO!</h3><p>Generating certificate...</p>`;
-      generateCertificate(name);
-      retakeBtn.classList.add('hidden');
+    if (score === 4) {
+        resultDiv.classList.remove('hidden');
+        resultDiv.innerHTML = "<h3 class='result-pass'>PASADO!</h3><p>Generating certificate…</p>";
+        generateCertificate(name);
+        retakeBtn.classList.add('hidden');
     } else {
-      resultDiv.innerHTML = `<h3 class="result-fail">FAILED.</h3><p>Try again.</p>`;
-      retakeBtn.classList.remove('hidden');
+        resultDiv.classList.remove('hidden');
+        resultDiv.innerHTML = "<h3 class='result-fail'>You FAILED.</h3><p>Try again.</p>";
+        retakeBtn.classList.remove('hidden');
     }
-  });
+});
 
-  async function generateCertificate(name) {
+async function generateCertificate(name) {
     const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ unit: 'pt', format: 'a4' });
-
-    const today = new Date();
-    const dateStr = today.toLocaleString('en-PH', { dateStyle: 'long', timeStyle: 'short' });
-
-    const certNo = 'CERT-' +
-      today.getFullYear().toString().slice(-2) +
-      (today.getMonth()+1).toString().padStart(2,'0') +
-      today.getDate().toString().padStart(2,'0') +
-      '-' + Math.floor(100000 + Math.random()*900000);
-
-    doc.setFillColor(245,245,245);
-    doc.rect(40,40,515,762,'F');
-
-    doc.setTextColor(40);
-    doc.setFont('Helvetica','bold'); doc.setFontSize(28);
-    doc.text('Certificate of Completion', 297.5, 120, { align: 'center' });
-
-    doc.setFontSize(14); doc.text('This certifies that', 297.5, 170, { align: 'center' });
-    doc.setFontSize(22); doc.text(name, 297.5, 210, { align:'center' });
-    doc.setFontSize(14); doc.text('has successfully completed the Safety Training Assessment.', 297.5, 250, { align:'center' });
-
-    doc.setFontSize(12);
-    doc.text(`Date: ${dateStr}`, 80, 310);
-    doc.text(`Certificate No.: ${certNo}`, 80, 330);
-
-    doc.text('Trainee Signature:', 80, 380);
-    doc.text(name, 80, 400);
-
-    doc.setFontSize(10); doc.setTextColor(120);
-    doc.text('Generated by Safety Training System', 297.5, 780, { align:'center' });
-
+    const doc = new jsPDF({ unit: "pt", format: "a4" });
+    doc.setFontSize(28);
+    doc.text("Certificate of Completion", 300, 120, { align:"center" });
+    doc.setFontSize(18);
+    doc.text(`Awarded to: ${name}`, 300, 200, { align:"center" });
+    doc.text("Successfully completed the Safety Training Assessment", 300, 240, { align:"center" });
     doc.save(`Certificate_${name}.pdf`);
-  }
+}
 </script>
 
 </body>
