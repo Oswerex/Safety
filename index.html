@@ -11,12 +11,12 @@
         --danger:#cc0033;
         --success:#1a7f37;
         --muted:#666;
-        --card-bg:#ffffff;
-        --bg:#f2f4f7;
+        --card-bg:#ffffffcc;
+        --bg:#e9efff;
     }
 
     body {
-        background: var(--bg);
+        background: linear-gradient(135deg,#0b5fff33,#ffffff);
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 20px;
@@ -30,6 +30,7 @@
 
     .card {
         background: var(--card-bg);
+        backdrop-filter: blur(6px);
         border-radius: 10px;
         padding: 20px;
         box-shadow: 0 3px 12px rgba(0,0,0,0.12);
@@ -74,9 +75,7 @@
     h2, h3 { margin-top: 0; }
 </style>
 
-<!-- jsPDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
 </head>
 <body>
 <div class="container">
@@ -86,11 +85,8 @@
 <div class="card video-card">
     <h3>Watch the Safety Orientation Video</h3>
     <div class="video-container">
-        <iframe src="https://meralco-my.sharepoint.com/personal/jgleguro_meralco_com_ph/_layouts/15/embed.aspx?UniqueId=512b6530-6fc4-4e0a-bb8e-9d2042fcacd1&embed=%7B%22ust%22%3Afalse%2C%22hv%22%3A%22CopyEmbedCode%22%7D"
-                allowfullscreen>
-        </iframe>
+        <iframe src="https://meralco-my.sharepoint.com/personal/jgleguro_meralco_com_ph/_layouts/15/embed.aspx?UniqueId=512b6530-6fc4-4e0a-bb8e-9d2042fcacd1&embed=%7B%22ust%22%3Afalse%2C%22hv%22%3A%22CopyEmbedCode%22%7D" allowfullscreen></iframe>
     </div>
-
     <div style="margin-top:12px;">
         <label>
             <input type="checkbox" id="watchedChk"> I confirm that I watched the video.
@@ -103,7 +99,6 @@
     <button id="resetBtn" class="btn btn-muted hidden">Reset</button>
 </div>
 
-
 <!-- ASSESSMENT -->
 <div id="assessment" class="card hidden">
     <h3>Assessment</h3>
@@ -112,25 +107,29 @@
         <label class="question">1. Ano ang maximum speed limit sa loob ng Meralco Operating Center?</label><br>
         <label><input type="radio" name="q1" value="20 kph"> 20 kph</label><br>
         <label><input type="radio" name="q1" value="30 kph"> 30 kph</label><br>
-        <label><input type="radio" name="q1" value="40 kph"> 40 kph</label>
+        <label><input type="radio" name="q1" value="40 kph"> 40 kph</label><br>
+        <label><input type="radio" name="q1" value="50 kph"> 50 kph</label>
     </div>
 
     <div class="question-block">
         <label class="question">2. Meralco is a (________) facility.</label><br>
         <label><input type="radio" name="q2" value="Smoke-free"> Smoke-free</label><br>
-        <label><input type="radio" name="q2" value="Pet-friendly"> Pet-friendly</label>
+        <label><input type="radio" name="q2" value="Pet-friendly"> Pet-friendly</label><br>
+        <label><input type="radio" name="q2" value="Noise-free"> Noise-free</label>
     </div>
 
     <div class="question-block">
         <label class="question">3. Follow (______) when using a fire extinguisher.</label><br>
         <label><input type="radio" name="q3" value="P.A.S.S"> P.A.S.S</label><br>
-        <label><input type="radio" name="q3" value="S.O.P"> S.O.P</label>
+        <label><input type="radio" name="q3" value="S.O.P"> S.O.P</label><br>
+        <label><input type="radio" name="q3" value="T.A.B"> T.A.B</label>
     </div>
 
     <div class="question-block">
         <label class="question">4. (______) trash bins are designated for used facemasks and tissues.</label><br>
         <label><input type="radio" name="q4" value="Biohazard"> Biohazard</label><br>
-        <label><input type="radio" name="q4" value="Recyclable"> Recyclable</label>
+        <label><input type="radio" name="q4" value="Recyclable"> Recyclable</label><br>
+        <label><input type="radio" name="q4" value="Compost"> Compost</label>
     </div>
 
     <div class="question-block">
@@ -145,7 +144,6 @@
 <div id="result" class="card hidden"></div>
 
 </div>
-
 
 <script>
 const watchedChk = document.getElementById('watchedChk');
