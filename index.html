@@ -167,7 +167,7 @@
     </div>
 
     <div class="question-block">
-        <label class="question">Name of Trainee:</label><br>
+        <label class="question">Name:</label><br>
         <input type="text" id="traineeName" placeholder="Juan Dela Cruz">
     </div>
 
@@ -273,7 +273,7 @@ async function generateCertificate(name){
     const img = new Image();
     img.src="https://raw.githubusercontent.com/Oswerex/ESH/6acfa4af336cce3696a01fea102eeaa626a67e01/ESHM%20Logo.png";
     img.onload=function(){
-        doc.addImage(img,'PNG',208,10,180,120);
+        doc.addImage(img,'PNG',241,10,108,72);
 
         // TITLE
         doc.setFontSize(28);
@@ -295,5 +295,6 @@ async function generateCertificate(name){
 
 </body>
 </html>
+
 
 
