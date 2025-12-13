@@ -120,7 +120,7 @@
 
     <div class="question-block">
         <label class="question">5. Unless there is a scheduled drill today, when a general alarm has been activated, what will you do?</label><br>
-        <label><input type="radio" name="q5" value="Evacuate"> Please Evacuate to the nearest exit door</label><br>
+        <label><input type="radio" name="q5" value="Evacuate"> Please evacuate to the nearest exit door</label><br>
         <label><input type="radio" name="q5" value="Ignore"> Ignore</label><br>
         <label><input type="radio" name="q5" value="Wait"> Wait inside the building</label><br>
         <label><input type="radio" name="q5" value="Call"> Call supervisor</label>
@@ -232,7 +232,7 @@ submitBtn.addEventListener('click',async()=>{
     if(document.querySelector('input[name="q9"]:checked')?.value==="Green") score++;
     if(document.querySelector('input[name="q10"]:checked')?.value==="Blue") score++;
 
-    let name=document.getElementById('traineeName').value.trim();
+    let name=document.getElementById('Name').value.trim();
     if(!name) return alert("Pakilagay ang pangalan.");
 
     let result=(score===10)?"PASS":"FAIL";
@@ -273,7 +273,7 @@ async function generateCertificate(name){
     const img = new Image();
     img.src="https://raw.githubusercontent.com/Oswerex/ESH/6acfa4af336cce3696a01fea102eeaa626a67e01/ESHM%20Logo.png";
     img.onload=function(){
-        doc.addImage(img,'PNG',250,10,90,60);
+        doc.addImage(img,'PNG',208,10,180,120);
 
         // TITLE
         doc.setFontSize(28);
@@ -295,3 +295,4 @@ async function generateCertificate(name){
 
 </body>
 </html>
+
