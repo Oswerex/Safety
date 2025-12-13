@@ -34,10 +34,7 @@
         background:#0b5fff;
         color:#fff;
     }
-    .btn-muted {
-        background:#e5e5e5;
-        color:#333;
-    }
+    .btn-muted { background:#e5e5e5; color:#333; }
     input[type="text"] {
         padding: 8px;
         border-radius: 6px;
@@ -59,7 +56,6 @@
 <body>
 
 <div class="container">
-
 <h2>Safety Training Module</h2>
 
 <!-- VIDEO -->
@@ -78,72 +74,147 @@
 
 <div class="card">
     <button id="startBtn" class="btn" disabled>Start Assessment</button>
+    <button id="resetBtn" class="btn btn-muted hidden">Reset</button>
 </div>
 
 <!-- ASSESSMENT -->
 <div id="assessment" class="card hidden">
-    <h3>Assessment</h3>
+<h3>Assessment</h3>
 
-    <!-- QUESTION 3 ONLY CHANGED -->
-    <p><b>3. Which procedure should be followed when using a fire extinguisher?</b></p>
-    <label>
-        <input type="radio" name="q3" value="PASS">
-        <b>P.A.S.S</b> – Pull the Pin, Aim the Nozzle, Squeeze the Lever, Sweep Side to Side
-    </label><br>
-    <label><input type="radio" name="q3" value="TAB"> T.A.B</label><br>
-    <label><input type="radio" name="q3" value="SOP"> S.O.P</label><br>
-    <label><input type="radio" name="q3" value="None"> None of the above</label>
+<!-- Q1 -->
+<p><b>1. What type of facility is Meralco Operating Center?</b></p>
+<label><input type="radio" name="q1" value="Smoke-free"> Smoke-free</label><br>
+<label><input type="radio" name="q1" value="Pet Friendly"> Pet Friendly</label><br>
+<label><input type="radio" name="q1" value="Smoke-free and Pet Friendly"> Smoke-free and Pet Friendly</label><br>
+<label><input type="radio" name="q1" value="None"> None of the above</label><br><br>
 
-    <br><br>
-    <label>Name of Trainee:</label><br>
-    <input type="text" id="traineeName">
+<!-- Q2 -->
+<p><b>2. What is the maximum speed limit in Meralco Operating Center?</b></p>
+<label><input type="radio" name="q2" value="20KPH"> 20 KPH</label><br>
+<label><input type="radio" name="q2" value="30KPH"> 30 KPH</label><br>
+<label><input type="radio" name="q2" value="40KPH"> 40 KPH</label><br>
+<label><input type="radio" name="q2" value="50KPH"> 50 KPH</label><br><br>
 
-    <br><br>
-    <button id="submitBtn" class="btn">Submit</button>
+<!-- Q3 (ONLY THIS CHANGED) -->
+<p><b>3. Which procedure should be followed when using a fire extinguisher?</b></p>
+<label>
+    <input type="radio" name="q3" value="PASS">
+    <b>P.A.S.S</b> – Pull the Pin, Aim the Nozzle, Squeeze the Lever, Sweep Side to Side
+</label><br>
+<label><input type="radio" name="q3" value="TAB"> T.A.B</label><br>
+<label><input type="radio" name="q3" value="SOP"> S.O.P</label><br>
+<label><input type="radio" name="q3" value="None"> None of the above</label><br><br>
+
+<!-- Q4 -->
+<p><b>4. Which fire suppression systems are installed in the Meralco Operating Center?</b></p>
+<label><input type="radio" name="q4" value="A"> Fire Sprinkler</label><br>
+<label><input type="radio" name="q4" value="B"> Heat and Smoke Detectors</label><br>
+<label><input type="radio" name="q4" value="C"> Fire Alarm Horns</label><br>
+<label><input type="radio" name="q4" value="All of the above"> All of the above</label><br><br>
+
+<!-- Q5 -->
+<p><b>5. Unless there is a scheduled drill today, when a general alarm has been activated, what will you do?</b></p>
+<label><input type="radio" name="q5" value="Evacuate"> Please Evacuate to the nearest exit door</label><br>
+<label><input type="radio" name="q5" value="Ignore"> Ignore</label><br>
+<label><input type="radio" name="q5" value="Wait"> Wait inside the building</label><br>
+<label><input type="radio" name="q5" value="Call"> Call supervisor</label><br><br>
+
+<!-- Q6 -->
+<p><b>6. What is the primary purpose of emergency lighting in a facility?</b></p>
+<label><input type="radio" name="q6" value="Decoration"> Decoration</label><br>
+<label><input type="radio" name="q6" value="Visibility"> To ensure visibility during power outages</label><br>
+<label><input type="radio" name="q6" value="Heat"> Provide heat</label><br>
+<label><input type="radio" name="q6" value="Signal"> Create signals</label><br><br>
+
+<!-- Q7 -->
+<p><b>7. In the event of an emergency evacuation, where should you proceed?</b></p>
+<label><input type="radio" name="q7" value="Assembly"> Emergency Assembly Point</label><br>
+<label><input type="radio" name="q7" value="Office"> Office</label><br>
+<label><input type="radio" name="q7" value="Exit"> Exit Area</label><br>
+<label><input type="radio" name="q7" value="Parking"> Parking Area</label><br><br>
+
+<!-- Q8 -->
+<p><b>8. Trash bin for paper towels and carton packaging?</b></p>
+<label><input type="radio" name="q8" value="Black"> Black</label><br>
+<label><input type="radio" name="q8" value="Green"> Green</label><br>
+<label><input type="radio" name="q8" value="Blue"> Blue</label><br>
+<label><input type="radio" name="q8" value="Red"> Red</label><br><br>
+
+<!-- Q9 -->
+<p><b>9. Trash bin for food and organic waste?</b></p>
+<label><input type="radio" name="q9" value="Green"> Green</label><br>
+<label><input type="radio" name="q9" value="Black"> Black</label><br>
+<label><input type="radio" name="q9" value="Blue"> Blue</label><br>
+<label><input type="radio" name="q9" value="Yellow"> Yellow</label><br><br>
+
+<!-- Q10 -->
+<p><b>10. Trash bin for recyclable materials?</b></p>
+<label><input type="radio" name="q10" value="Blue"> Blue</label><br>
+<label><input type="radio" name="q10" value="Green"> Green</label><br>
+<label><input type="radio" name="q10" value="Black"> Black</label><br>
+<label><input type="radio" name="q10" value="Red"> Red</label><br><br>
+
+<label>Name:</label><br>
+<input type="text" id="traineeName"><br><br>
+
+<button id="submitBtn" class="btn">Submit</button>
+<button id="retakeBtn" class="btn btn-muted hidden">Retake</button>
 </div>
 
+<div id="result" class="card hidden"></div>
 </div>
 
 <script>
-// SAME FLOW – NO OTHER LOGIC TOUCHED
+// SAME FUNCTIONS – UNTOUCHED
 const watchedChk=document.getElementById('watchedChk');
 const startBtn=document.getElementById('startBtn');
+const resetBtn=document.getElementById('resetBtn');
 const assessment=document.getElementById('assessment');
+const submitBtn=document.getElementById('submitBtn');
+const retakeBtn=document.getElementById('retakeBtn');
+const resultDiv=document.getElementById('result');
 const trainingVideo=document.getElementById('trainingVideo');
 
 trainingVideo.addEventListener('ended',()=>watchedChk.disabled=false);
 watchedChk.addEventListener('change',()=>startBtn.disabled=!watchedChk.checked);
 startBtn.addEventListener('click',()=>assessment.classList.remove('hidden'));
 
-document.getElementById('submitBtn').addEventListener('click',()=>{
-    const ans=document.querySelector('input[name="q3"]:checked')?.value;
+submitBtn.addEventListener('click',()=>{
+    let score=0;
+    if(document.querySelector('input[name="q1"]:checked')?.value==="Smoke-free and Pet Friendly") score++;
+    if(document.querySelector('input[name="q2"]:checked')?.value==="30KPH") score++;
+    if(document.querySelector('input[name="q3"]:checked')?.value==="PASS") score++;
+    if(document.querySelector('input[name="q4"]:checked')?.value==="All of the above") score++;
+    if(document.querySelector('input[name="q5"]:checked')?.value==="Evacuate") score++;
+    if(document.querySelector('input[name="q6"]:checked')?.value==="Visibility") score++;
+    if(document.querySelector('input[name="q7"]:checked')?.value==="Assembly") score++;
+    if(document.querySelector('input[name="q8"]:checked')?.value==="Black") score++;
+    if(document.querySelector('input[name="q9"]:checked')?.value==="Green") score++;
+    if(document.querySelector('input[name="q10"]:checked')?.value==="Blue") score++;
+
     const name=document.getElementById('traineeName').value.trim();
-    if(ans==="PASS" && name) generateCertificate(name);
-    else alert("Please answer correctly and enter your name.");
+    if(score===10 && name) generateCertificate(name);
+    else alert("Please complete all questions correctly.");
 });
 
-// CERTIFICATE – LOGO LARGER ONLY
 function generateCertificate(name){
     const {jsPDF}=window.jspdf;
     const doc=new jsPDF({unit:"pt",format:"a4"});
 
-    // ORANGE HEADER
     doc.setFillColor(255,140,0);
     doc.rect(0,0,595,90,'F');
 
-    // BIGGER LOGO
     const img=new Image();
     img.src="https://raw.githubusercontent.com/Oswerex/ESH/6acfa4af336cce3696a01fea102eeaa626a67e01/ESHM%20Logo.png";
     img.onload=()=>{
-        doc.addImage(img,'PNG',210,10,180,70);
+        doc.addImage(img,'PNG',190,10,220,70);
 
         doc.setFontSize(26);
         doc.text("Certificate of Completion",300,140,{align:"center"});
         doc.setFontSize(18);
-        doc.text(`This Certifies that: ${name}`,300,200,{align:"center"});
+        doc.text(`This certifies that: ${name}`,300,200,{align:"center"});
         doc.setFontSize(14);
         doc.text("Successfully completed the Safety Training Assessment",300,240,{align:"center"});
-
         doc.save(`Certificate_${name}.pdf`);
     }
 }
