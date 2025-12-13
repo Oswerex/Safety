@@ -232,7 +232,7 @@ submitBtn.addEventListener('click',async()=>{
     if(document.querySelector('input[name="q9"]:checked')?.value==="Green") score++;
     if(document.querySelector('input[name="q10"]:checked')?.value==="Blue") score++;
 
-    let name=document.getElementById('Name').value.trim();
+    let name=document.getElementById('traineeName').value.trim();
     if(!name) return alert("Pakilagay ang pangalan.");
 
     let result=(score===10)?"PASS":"FAIL";
@@ -295,4 +295,5 @@ async function generateCertificate(name){
 
 </body>
 </html>
+
 
