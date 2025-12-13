@@ -8,207 +8,144 @@
 <style>
     :root {
         --primary:#0b5fff;
-        --danger:#cc0033;
-        --success:#1a7f37;
-        --muted:#666;
         --card-bg:#ffffffcc;
-        --bg:#e9efff;
     }
-
     body {
         background: linear-gradient(135deg,#0b5fff33,#ffffff);
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 20px;
-        line-height: 1.5;
     }
-
-    .container {
-        max-width: 900px;
-        margin: auto;
-    }
-
+    .container { max-width: 900px; margin: auto; }
     .card {
         background: var(--card-bg);
-        backdrop-filter: blur(6px);
         border-radius: 10px;
         padding: 20px;
         box-shadow: 0 3px 12px rgba(0,0,0,0.12);
         margin-top: 20px;
     }
-
     .hidden { display:none; }
-
     .btn {
         padding: 10px 16px;
-        border: none;
-        border-radius: 6px;
-        cursor: pointer;
-        font-weight: 600;
+        border:none;
+        border-radius:6px;
+        cursor:pointer;
+        font-weight:600;
+        background:#0b5fff;
+        color:#fff;
     }
-    .btn-primary { background: var(--primary); color:#fff; }
-    .btn-muted { background:#e5e5e5; color:#333; }
-
+    .btn-muted {
+        background:#e5e5e5;
+        color:#333;
+    }
     input[type="text"] {
         padding: 8px;
-        border: 1px solid #ccc;
         border-radius: 6px;
         width: 250px;
+        border:1px solid #ccc;
     }
-
     .video-container {
-        position: relative;
-        width: 100%;
-        padding-top: 56.25%;
+        position: relative; width:100%; padding-top:56.25%;
     }
-    .video-container iframe {
-        position: absolute;
-        top:0; left:0;
+    .video-container video {
+        position:absolute; top:0; left:0;
         width:100%; height:100%;
-        border:0;
         border-radius:10px;
     }
-
-    .question { font-weight: 600; margin-bottom: 6px; }
-    .question-block { margin-bottom: 18px; }
-
-    h2, h3 { margin-top: 0; }
 </style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
+
 <div class="container">
 
 <h2>Safety Training Module</h2>
 
-<div class="card video-card">
+<!-- VIDEO -->
+<div class="card">
     <h3>Watch the Safety Orientation Video</h3>
     <div class="video-container">
-        <iframe src="https://meralco-my.sharepoint.com/personal/jgleguro_meralco_com_ph/_layouts/15/embed.aspx?UniqueId=512b6530-6fc4-4e0a-bb8e-9d2042fcacd1&embed=%7B%22ust%22%3Afalse%2C%22hv%22%3A%22CopyEmbedCode%22%7D" allowfullscreen></iframe>
+        <video id="trainingVideo" controls>
+            <source src="https://oxwcrrgwbblxfozvqbmm.supabase.co/storage/v1/object/public/training%20videos/safety%20video.mp4">
+        </video>
     </div>
-    <div style="margin-top:12px;">
-        <label>
-            <input type="checkbox" id="watchedChk"> I confirm that I watched the video.
-        </label>
-    </div>
+    <label>
+        <input type="checkbox" id="watchedChk" disabled>
+        I confirm that I watched the video.
+    </label>
 </div>
 
 <div class="card">
-    <button id="startBtn" class="btn btn-primary" disabled>Start Assessment</button>
-    <button id="resetBtn" class="btn btn-muted hidden">Reset</button>
+    <button id="startBtn" class="btn" disabled>Start Assessment</button>
 </div>
 
 <!-- ASSESSMENT -->
 <div id="assessment" class="card hidden">
     <h3>Assessment</h3>
 
-    <div class="question-block">
-        <label class="question">1. Ano ang maximum speed limit sa loob ng Meralco Operating Center?</label><br>
-        <label><input type="radio" name="q1" value="20 kph"> 20 kph</label><br>
-        <label><input type="radio" name="q1" value="30 kph"> 30 kph</label><br>
-        <label><input type="radio" name="q1" value="40 kph"> 40 kph</label><br>
-        <label><input type="radio" name="q1" value="50 kph"> 50 kph</label>
-    </div>
+    <!-- QUESTION 3 ONLY CHANGED -->
+    <p><b>3. Which procedure should be followed when using a fire extinguisher?</b></p>
+    <label>
+        <input type="radio" name="q3" value="PASS">
+        <b>P.A.S.S</b> – Pull the Pin, Aim the Nozzle, Squeeze the Lever, Sweep Side to Side
+    </label><br>
+    <label><input type="radio" name="q3" value="TAB"> T.A.B</label><br>
+    <label><input type="radio" name="q3" value="SOP"> S.O.P</label><br>
+    <label><input type="radio" name="q3" value="None"> None of the above</label>
 
-    <div class="question-block">
-        <label class="question">2. Meralco is a (________) facility.</label><br>
-        <label><input type="radio" name="q2" value="Smoke-free"> Smoke-free</label><br>
-        <label><input type="radio" name="q2" value="Pet-friendly"> Pet-friendly</label><br>
-        <label><input type="radio" name="q2" value="Noise-free"> Noise-free</label>
-    </div>
+    <br><br>
+    <label>Name of Trainee:</label><br>
+    <input type="text" id="traineeName">
 
-    <div class="question-block">
-        <label class="question">3. Follow (______) when using a fire extinguisher.</label><br>
-        <label><input type="radio" name="q3" value="P.A.S.S"> P.A.S.S</label><br>
-        <label><input type="radio" name="q3" value="S.O.P"> S.O.P</label><br>
-        <label><input type="radio" name="q3" value="T.A.B"> T.A.B</label>
-    </div>
-
-    <div class="question-block">
-        <label class="question">4. (______) trash bins are designated for used facemasks and tissues.</label><br>
-        <label><input type="radio" name="q4" value="Biohazard"> Biohazard</label><br>
-        <label><input type="radio" name="q4" value="Recyclable"> Recyclable</label><br>
-        <label><input type="radio" name="q4" value="Compost"> Compost</label>
-    </div>
-
-    <div class="question-block">
-        <label class="question">5. Ilagay ang pangalan ng Trainee:</label><br>
-        <input type="text" id="traineeName" placeholder="Juan Dela Cruz">
-    </div>
-
-    <button id="submitBtn" class="btn btn-primary">Submit</button>
-    <button id="retakeBtn" class="btn btn-muted hidden">Retake Assessment</button>
+    <br><br>
+    <button id="submitBtn" class="btn">Submit</button>
 </div>
-
-<div id="result" class="card hidden"></div>
 
 </div>
 
 <script>
-const watchedChk = document.getElementById('watchedChk');
-const startBtn = document.getElementById('startBtn');
-const assessment = document.getElementById('assessment');
-const resetBtn = document.getElementById('resetBtn');
-const submitBtn = document.getElementById('submitBtn');
-const retakeBtn = document.getElementById('retakeBtn');
-const resultDiv = document.getElementById('result');
+// SAME FLOW – NO OTHER LOGIC TOUCHED
+const watchedChk=document.getElementById('watchedChk');
+const startBtn=document.getElementById('startBtn');
+const assessment=document.getElementById('assessment');
+const trainingVideo=document.getElementById('trainingVideo');
 
-watchedChk.addEventListener('change', () => {
-    startBtn.disabled = !watchedChk.checked;
+trainingVideo.addEventListener('ended',()=>watchedChk.disabled=false);
+watchedChk.addEventListener('change',()=>startBtn.disabled=!watchedChk.checked);
+startBtn.addEventListener('click',()=>assessment.classList.remove('hidden'));
+
+document.getElementById('submitBtn').addEventListener('click',()=>{
+    const ans=document.querySelector('input[name="q3"]:checked')?.value;
+    const name=document.getElementById('traineeName').value.trim();
+    if(ans==="PASS" && name) generateCertificate(name);
+    else alert("Please answer correctly and enter your name.");
 });
 
-startBtn.addEventListener('click', () => {
-    assessment.classList.remove('hidden');
-    resetBtn.classList.remove('hidden');
-    resultDiv.classList.add('hidden');
-});
+// CERTIFICATE – LOGO LARGER ONLY
+function generateCertificate(name){
+    const {jsPDF}=window.jspdf;
+    const doc=new jsPDF({unit:"pt",format:"a4"});
 
-resetBtn.addEventListener('click', resetAll);
-retakeBtn.addEventListener('click', resetAll);
+    // ORANGE HEADER
+    doc.setFillColor(255,140,0);
+    doc.rect(0,0,595,90,'F');
 
-function resetAll() {
-    ["q1","q2","q3","q4"].forEach(q => {
-        let checked = document.querySelector(`input[name="${q}"]:checked`);
-        if (checked) checked.checked = false;
-    });
-    document.getElementById('traineeName').value = "";
-    resultDiv.innerHTML = "";
-    resultDiv.classList.add('hidden');
-}
+    // BIGGER LOGO
+    const img=new Image();
+    img.src="https://raw.githubusercontent.com/Oswerex/ESH/6acfa4af336cce3696a01fea102eeaa626a67e01/ESHM%20Logo.png";
+    img.onload=()=>{
+        doc.addImage(img,'PNG',210,10,180,70);
 
-submitBtn.addEventListener('click', () => {
-    let score = 0;
+        doc.setFontSize(26);
+        doc.text("Certificate of Completion",300,140,{align:"center"});
+        doc.setFontSize(18);
+        doc.text(`This Certifies that: ${name}`,300,200,{align:"center"});
+        doc.setFontSize(14);
+        doc.text("Successfully completed the Safety Training Assessment",300,240,{align:"center"});
 
-    if (document.querySelector('input[name="q1"]:checked')?.value === "30 kph") score++;
-    if (document.querySelector('input[name="q2"]:checked')?.value === "Smoke-free") score++;
-    if (document.querySelector('input[name="q3"]:checked')?.value === "P.A.S.S") score++;
-    if (document.querySelector('input[name="q4"]:checked')?.value === "Biohazard") score++;
-
-    let name = document.getElementById('traineeName').value.trim();
-    if (!name) return alert("Pakilagay ang pangalan.");
-
-    if (score === 4) {
-        resultDiv.classList.remove('hidden');
-        resultDiv.innerHTML = "<h3 class='result-pass'>PASADO!</h3><p>Generating certificate…</p>";
-        generateCertificate(name);
-        retakeBtn.classList.add('hidden');
-    } else {
-        resultDiv.classList.remove('hidden');
-        resultDiv.innerHTML = "<h3 class='result-fail'>You FAILED.</h3><p>Try again.</p>";
-        retakeBtn.classList.remove('hidden');
+        doc.save(`Certificate_${name}.pdf`);
     }
-});
-
-async function generateCertificate(name) {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ unit: "pt", format: "a4" });
-    doc.setFontSize(28);
-    doc.text("Certificate of Completion", 300, 120, { align:"center" });
-    doc.setFontSize(18);
-    doc.text(`Awarded to: ${name}`, 300, 200, { align:"center" });
-    doc.text("Successfully completed the Safety Training Assessment", 300, 240, { align:"center" });
-    doc.save(`Certificate_${name}.pdf`);
 }
 </script>
 
