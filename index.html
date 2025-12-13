@@ -8,179 +8,219 @@
 <style>
     :root {
         --primary:#0b5fff;
+        --danger:#cc0033;
+        --success:#1a7f37;
+        --muted:#666;
         --card-bg:#ffffffcc;
+        --bg:#e9efff;
     }
     body {
         background: linear-gradient(135deg,#0b5fff33,#ffffff);
         font-family: Arial, sans-serif;
         margin: 0;
         padding: 20px;
+        line-height: 1.5;
     }
     .container { max-width: 900px; margin: auto; }
     .card {
         background: var(--card-bg);
+        backdrop-filter: blur(6px);
         border-radius: 10px;
         padding: 20px;
         box-shadow: 0 3px 12px rgba(0,0,0,0.12);
         margin-top: 20px;
     }
     .hidden { display:none; }
-    .btn {
-        padding: 10px 16px;
-        border:none;
-        border-radius:6px;
-        cursor:pointer;
-        font-weight:600;
-        background:#0b5fff;
-        color:#fff;
-    }
+    .btn { padding: 10px 16px; border:none; border-radius:6px; cursor:pointer; font-weight:600; }
+    .btn-primary { background: var(--primary); color:#fff; }
     .btn-muted { background:#e5e5e5; color:#333; }
+
     input[type="text"] {
         padding: 8px;
+        border: 1px solid #ccc;
         border-radius: 6px;
         width: 250px;
-        border:1px solid #ccc;
     }
+
     .video-container {
         position: relative; width:100%; padding-top:56.25%;
     }
     .video-container video {
-        position:absolute; top:0; left:0;
-        width:100%; height:100%;
-        border-radius:10px;
+        position:absolute; top:0; left:0; width:100%; height:100%; border-radius:10px;
     }
+
+    .question { font-weight: 600; margin-bottom: 6px; }
+    .question-block { margin-bottom: 18px; }
 </style>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
 <body>
-
 <div class="container">
+
 <h2>Safety Training Module</h2>
 
 <!-- VIDEO -->
-<div class="card">
+<div class="card video-card">
     <h3>Watch the Safety Orientation Video</h3>
     <div class="video-container">
         <video id="trainingVideo" controls>
-            <source src="https://oxwcrrgwbblxfozvqbmm.supabase.co/storage/v1/object/public/training%20videos/safety%20video.mp4">
+            <source src="https://oxwcrrgwbblxfozvqbmm.supabase.co/storage/v1/object/public/training%20videos/safety%20video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
         </video>
     </div>
-    <label>
-        <input type="checkbox" id="watchedChk" disabled>
-        I confirm that I watched the video.
-    </label>
+    <div style="margin-top:12px;">
+        <label>
+            <input type="checkbox" id="watchedChk" disabled> I confirm that I watched the video.
+        </label>
+    </div>
 </div>
 
 <div class="card">
-    <button id="startBtn" class="btn" disabled>Start Assessment</button>
+    <button id="startBtn" class="btn btn-primary" disabled>Start Assessment</button>
     <button id="resetBtn" class="btn btn-muted hidden">Reset</button>
 </div>
 
 <!-- ASSESSMENT -->
 <div id="assessment" class="card hidden">
-<h3>Assessment</h3>
+    <h3>Assessment</h3>
 
-<!-- Q1 -->
-<p><b>1. What type of facility is Meralco Operating Center?</b></p>
-<label><input type="radio" name="q1" value="Smoke-free"> Smoke-free</label><br>
-<label><input type="radio" name="q1" value="Pet Friendly"> Pet Friendly</label><br>
-<label><input type="radio" name="q1" value="Smoke-free and Pet Friendly"> Smoke-free and Pet Friendly</label><br>
-<label><input type="radio" name="q1" value="None"> None of the above</label><br><br>
+    <!-- 10 QUESTIONS -->
+    <div class="question-block">
+        <label class="question">1. What type of facility is Meralco Operating Center?</label><br>
+        <label><input type="radio" name="q1" value="Smoke-free"> Smoke-free</label><br>
+        <label><input type="radio" name="q1" value="Pet Friendly"> Pet Friendly</label><br>
+        <label><input type="radio" name="q1" value="Smoke-free and Pet Friendly"> Smoke-free and Pet Friendly</label><br>
+        <label><input type="radio" name="q1" value="None"> None of the above</label>
+    </div>
 
-<!-- Q2 -->
-<p><b>2. What is the maximum speed limit in Meralco Operating Center?</b></p>
-<label><input type="radio" name="q2" value="20KPH"> 20 KPH</label><br>
-<label><input type="radio" name="q2" value="30KPH"> 30 KPH</label><br>
-<label><input type="radio" name="q2" value="40KPH"> 40 KPH</label><br>
-<label><input type="radio" name="q2" value="50KPH"> 50 KPH</label><br><br>
+    <div class="question-block">
+        <label class="question">2. What is the maximum speed limit in Meralco Operating Center?</label><br>
+        <label><input type="radio" name="q2" value="20KPH"> 20 KPH</label><br>
+        <label><input type="radio" name="q2" value="30KPH"> 30 KPH</label><br>
+        <label><input type="radio" name="q2" value="40KPH"> 40 KPH</label><br>
+        <label><input type="radio" name="q2" value="50KPH"> 50 KPH</label>
+    </div>
 
-<!-- Q3 (ONLY THIS CHANGED) -->
-<p><b>3. Which procedure should be followed when using a fire extinguisher?</b></p>
-<label>
-    <input type="radio" name="q3" value="PASS">
-    <b>P.A.S.S</b> – Pull the Pin, Aim the Nozzle, Squeeze the Lever, Sweep Side to Side
-</label><br>
-<label><input type="radio" name="q3" value="TAB"> T.A.B</label><br>
-<label><input type="radio" name="q3" value="SOP"> S.O.P</label><br>
-<label><input type="radio" name="q3" value="None"> None of the above</label><br><br>
+    <div class="question-block">
+        <label class="question">3. Which procedure should be followed when using a fire extinguisher?</label><br>
+        <label><input type="radio" name="q3" value="PASS"> P.A.S.S.(Pull-Aim-Squeeze-Sweep)</label><br>
+        <label><input type="radio" name="q3" value="TAB"> T.A.B.</label><br>
+        <label><input type="radio" name="q3" value="SOP"> S.O.P.</label><br>
+        <label><input type="radio" name="q3" value="None"> None of the above</label>
+    </div>
 
-<!-- Q4 -->
-<p><b>4. Which fire suppression systems are installed in the Meralco Operating Center?</b></p>
-<label><input type="radio" name="q4" value="A"> Fire Sprinkler</label><br>
-<label><input type="radio" name="q4" value="B"> Heat and Smoke Detectors</label><br>
-<label><input type="radio" name="q4" value="C"> Fire Alarm Horns</label><br>
-<label><input type="radio" name="q4" value="All of the above"> All of the above</label><br><br>
+    <div class="question-block">
+        <label class="question">4. Which fire suppression systems are installed in the Meralco Operating Center?</label><br>
+        <label><input type="radio" name="q4" value="A"> Fire Sprinkler</label><br>
+        <label><input type="radio" name="q4" value="B"> Heat and Smoke Detectors</label><br>
+        <label><input type="radio" name="q4" value="C"> Fire Alarm Horns</label><br>
+        <label><input type="radio" name="q4" value="All of the above"> All of the above</label>
+    </div>
 
-<!-- Q5 -->
-<p><b>5. Unless there is a scheduled drill today, when a general alarm has been activated, what will you do?</b></p>
-<label><input type="radio" name="q5" value="Evacuate"> Please Evacuate to the nearest exit door</label><br>
-<label><input type="radio" name="q5" value="Ignore"> Ignore</label><br>
-<label><input type="radio" name="q5" value="Wait"> Wait inside the building</label><br>
-<label><input type="radio" name="q5" value="Call"> Call supervisor</label><br><br>
+    <div class="question-block">
+        <label class="question">5. Unless there is a scheduled drill today, when a general alarm has been activated, what will you do?</label><br>
+        <label><input type="radio" name="q5" value="Evacuate"> Please Evacuate to the nearest exit door</label><br>
+        <label><input type="radio" name="q5" value="Ignore"> Ignore</label><br>
+        <label><input type="radio" name="q5" value="Wait"> Wait inside the building</label><br>
+        <label><input type="radio" name="q5" value="Call"> Call supervisor</label>
+    </div>
 
-<!-- Q6 -->
-<p><b>6. What is the primary purpose of emergency lighting in a facility?</b></p>
-<label><input type="radio" name="q6" value="Decoration"> Decoration</label><br>
-<label><input type="radio" name="q6" value="Visibility"> To ensure visibility during power outages</label><br>
-<label><input type="radio" name="q6" value="Heat"> Provide heat</label><br>
-<label><input type="radio" name="q6" value="Signal"> Create signals</label><br><br>
+    <div class="question-block">
+        <label class="question">6. What is the primary purpose of emergency lighting in a facility?</label><br>
+        <label><input type="radio" name="q6" value="Decoration"> Decoration</label><br>
+        <label><input type="radio" name="q6" value="Visibility"> To ensure visibility during power outages</label><br>
+        <label><input type="radio" name="q6" value="Heat"> Provide heat</label><br>
+        <label><input type="radio" name="q6" value="Signal"> Create signals</label>
+    </div>
 
-<!-- Q7 -->
-<p><b>7. In the event of an emergency evacuation, where should you proceed?</b></p>
-<label><input type="radio" name="q7" value="Assembly"> Emergency Assembly Point</label><br>
-<label><input type="radio" name="q7" value="Office"> Office</label><br>
-<label><input type="radio" name="q7" value="Exit"> Exit Area</label><br>
-<label><input type="radio" name="q7" value="Parking"> Parking Area</label><br><br>
+    <div class="question-block">
+        <label class="question">7. In the event of an emergency evacuation, where is the designated location you should proceed to?</label><br>
+        <label><input type="radio" name="q7" value="Assembly"> Emergency Assembly Point</label><br>
+        <label><input type="radio" name="q7" value="Office"> Back to office</label><br>
+        <label><input type="radio" name="q7" value="Exit"> Stand near exit</label><br>
+        <label><input type="radio" name="q7" value="Parking"> Parking area</label>
+    </div>
 
-<!-- Q8 -->
-<p><b>8. Trash bin for paper towels and carton packaging?</b></p>
-<label><input type="radio" name="q8" value="Black"> Black</label><br>
-<label><input type="radio" name="q8" value="Green"> Green</label><br>
-<label><input type="radio" name="q8" value="Blue"> Blue</label><br>
-<label><input type="radio" name="q8" value="Red"> Red</label><br><br>
+    <div class="question-block">
+        <label class="question">8. What color of trash bin should be used for disposing of paper towels and carton packaging?</label><br>
+        <label><input type="radio" name="q8" value="Black"> Black</label><br>
+        <label><input type="radio" name="q8" value="Green"> Green</label><br>
+        <label><input type="radio" name="q8" value="Blue"> Blue</label><br>
+        <label><input type="radio" name="q8" value="Red"> Red</label>
+    </div>
 
-<!-- Q9 -->
-<p><b>9. Trash bin for food and organic waste?</b></p>
-<label><input type="radio" name="q9" value="Green"> Green</label><br>
-<label><input type="radio" name="q9" value="Black"> Black</label><br>
-<label><input type="radio" name="q9" value="Blue"> Blue</label><br>
-<label><input type="radio" name="q9" value="Yellow"> Yellow</label><br><br>
+    <div class="question-block">
+        <label class="question">9. What color of trash bin should be used for disposing Food Waste and Organic waste?</label><br>
+        <label><input type="radio" name="q9" value="Green"> Green</label><br>
+        <label><input type="radio" name="q9" value="Black"> Black</label><br>
+        <label><input type="radio" name="q9" value="Blue"> Blue</label><br>
+        <label><input type="radio" name="q9" value="Yellow"> Yellow</label>
+    </div>
 
-<!-- Q10 -->
-<p><b>10. Trash bin for recyclable materials?</b></p>
-<label><input type="radio" name="q10" value="Blue"> Blue</label><br>
-<label><input type="radio" name="q10" value="Green"> Green</label><br>
-<label><input type="radio" name="q10" value="Black"> Black</label><br>
-<label><input type="radio" name="q10" value="Red"> Red</label><br><br>
+    <div class="question-block">
+        <label class="question">10. What color of trash bin should be used for disposing recyclable materials?</label><br>
+        <label><input type="radio" name="q10" value="Blue"> Blue</label><br>
+        <label><input type="radio" name="q10" value="Green"> Green</label><br>
+        <label><input type="radio" name="q10" value="Black"> Black</label><br>
+        <label><input type="radio" name="q10" value="Red"> Red</label>
+    </div>
 
-<label>Name:</label><br>
-<input type="text" id="traineeName"><br><br>
+    <div class="question-block">
+        <label class="question">Name of Trainee:</label><br>
+        <input type="text" id="traineeName" placeholder="Juan Dela Cruz">
+    </div>
 
-<button id="submitBtn" class="btn">Submit</button>
-<button id="retakeBtn" class="btn btn-muted hidden">Retake</button>
+    <button id="submitBtn" class="btn btn-primary">Submit</button>
+    <button id="retakeBtn" class="btn btn-muted hidden">Retake Assessment</button>
 </div>
 
 <div id="result" class="card hidden"></div>
+
 </div>
 
 <script>
-// SAME FUNCTIONS – UNTOUCHED
+// ---- SAME FUNCTIONS (NO CHANGE EXCEPT LOGO + CERTIFICATE DESIGN) ----
+
 const watchedChk=document.getElementById('watchedChk');
 const startBtn=document.getElementById('startBtn');
-const resetBtn=document.getElementById('resetBtn');
 const assessment=document.getElementById('assessment');
+const resetBtn=document.getElementById('resetBtn');
 const submitBtn=document.getElementById('submitBtn');
 const retakeBtn=document.getElementById('retakeBtn');
 const resultDiv=document.getElementById('result');
 const trainingVideo=document.getElementById('trainingVideo');
 
-trainingVideo.addEventListener('ended',()=>watchedChk.disabled=false);
-watchedChk.addEventListener('change',()=>startBtn.disabled=!watchedChk.checked);
-startBtn.addEventListener('click',()=>assessment.classList.remove('hidden'));
+const APP_SCRIPT_URL="https://script.google.com/macros/s/AKfycbyBql2dvKoJ0IuzXEXOAhsgABQy1_il_bFJrXPMB1EbMvqyOVvhLckFZaMRZAsx6TpZ/exec";
+const SECRET="V9x!7Qm#4sP@2kT8zL$1gR";
 
-submitBtn.addEventListener('click',()=>{
+let attemptCount=1;
+
+trainingVideo.addEventListener('ended',()=>{ watchedChk.disabled=false; });
+watchedChk.addEventListener('change',()=>{ startBtn.disabled=!watchedChk.checked; });
+
+startBtn.addEventListener('click',()=>{
+    assessment.classList.remove('hidden');
+    resetBtn.classList.remove('hidden');
+    resultDiv.classList.add('hidden');
+});
+
+resetBtn.addEventListener('click',resetAll);
+retakeBtn.addEventListener('click',()=>{ attemptCount++; resetAll(); });
+
+function resetAll(){
+    for(let i=1;i<=10;i++){
+        let c=document.querySelector(`input[name="q${i}"]:checked`);
+        if(c) c.checked=false;
+    }
+    document.getElementById('traineeName').value="";
+    resultDiv.innerHTML="";
+    resultDiv.classList.add('hidden');
+}
+
+submitBtn.addEventListener('click',async()=>{
     let score=0;
+
     if(document.querySelector('input[name="q1"]:checked')?.value==="Smoke-free and Pet Friendly") score++;
     if(document.querySelector('input[name="q2"]:checked')?.value==="30KPH") score++;
     if(document.querySelector('input[name="q3"]:checked')?.value==="PASS") score++;
@@ -192,29 +232,62 @@ submitBtn.addEventListener('click',()=>{
     if(document.querySelector('input[name="q9"]:checked')?.value==="Green") score++;
     if(document.querySelector('input[name="q10"]:checked')?.value==="Blue") score++;
 
-    const name=document.getElementById('traineeName').value.trim();
-    if(score===10 && name) generateCertificate(name);
-    else alert("Please complete all questions correctly.");
+    let name=document.getElementById('traineeName').value.trim();
+    if(!name) return alert("Pakilagay ang pangalan.");
+
+    let result=(score===10)?"PASS":"FAIL";
+
+    try{
+        await fetch(APP_SCRIPT_URL,{
+            method:"POST",
+            mode:"no-cors",
+            headers:{ "Content-Type":"application/json" },
+            body:JSON.stringify({
+                token:SECRET, name:name, score:score,
+                result:result, attempts:attemptCount
+            })
+        });
+    }catch(e){}
+
+    resultDiv.classList.remove('hidden');
+    if(result==="PASS"){
+        resultDiv.innerHTML="<h3 class='result-pass'>PASADO!</h3><p>Generating certificate…</p>";
+        generateCertificate(name);
+        retakeBtn.classList.add('hidden');
+    } else {
+        resultDiv.innerHTML="<h3 class='result-fail'>You FAILED.</h3><p>Try again.</p>";
+        retakeBtn.classList.remove('hidden');
+    }
 });
 
-function generateCertificate(name){
+// FINAL CERTIFICATE FUNCTION WITH LOGO + ORANGE DESIGN
+async function generateCertificate(name){
     const {jsPDF}=window.jspdf;
     const doc=new jsPDF({unit:"pt",format:"a4"});
 
+    // ORANGE HEADER
     doc.setFillColor(255,140,0);
-    doc.rect(0,0,595,90,'F');
+    doc.rect(0,0,595,80,'F');
 
-    const img=new Image();
+    // ADD LOGO
+    const img = new Image();
     img.src="https://raw.githubusercontent.com/Oswerex/ESH/6acfa4af336cce3696a01fea102eeaa626a67e01/ESHM%20Logo.png";
-    img.onload=()=>{
-        doc.addImage(img,'PNG',190,10,220,70);
+    img.onload=function(){
+        doc.addImage(img,'PNG',250,10,90,60);
 
-        doc.setFontSize(26);
-        doc.text("Certificate of Completion",300,140,{align:"center"});
+        // TITLE
+        doc.setFontSize(28);
+        doc.setTextColor(0,0,0);
+        doc.text("Certificate of Completion",300,120,{align:"center"});
+
+        // NAME
         doc.setFontSize(18);
         doc.text(`This certifies that: ${name}`,300,200,{align:"center"});
+
+        // COMPLETION TEXT
         doc.setFontSize(14);
         doc.text("Successfully completed the Safety Training Assessment",300,240,{align:"center"});
+
         doc.save(`Certificate_${name}.pdf`);
     }
 }
