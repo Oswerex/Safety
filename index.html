@@ -1,111 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
+<meta charset="utf-8">
 <title>Work Permit Application</title>
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-body { font-family: Arial, sans-serif; background:#f5f6f7; padding:30px; }
-.container { max-width:760px; background:#fff; padding:25px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,.08); }
-h2 { margin-bottom:20px; }
+body { font-family: Arial; background:#f4f6f8; padding:30px; }
+.card { max-width:720px; background:#fff; padding:25px; border-radius:8px; box-shadow:0 2px 10px rgba(0,0,0,.08); }
 label { font-weight:600; margin-top:12px; display:block; }
 input, select { width:100%; padding:10px; margin-top:6px; border:1px solid #ccc; border-radius:6px; }
 .row { display:flex; gap:12px; }
 .row div { flex:1; }
-button { margin-top:20px; width:100%; padding:14px; background:#0d6efd; color:#fff; border:none; border-radius:6px; font-size:16px; font-weight:700; cursor:pointer; }
-.msg { margin-top:16px; padding:12px; border-radius:6px; display:none; }
+button { margin-top:20px; width:100%; padding:14px; background:#0d6efd; color:#fff; border:none; border-radius:6px; font-size:16px; font-weight:700; }
+.msg { margin-top:15px; padding:12px; border-radius:6px; display:none; }
 .ok { background:#d1e7dd; color:#0f5132; }
 .err { background:#f8d7da; color:#842029; }
 </style>
 </head>
 
 <body>
-<div class="container">
+<div class="card">
 <h2>Work Permit Application</h2>
 
-<form id="permitForm">
-
+<form id="f">
 <label>Employee Name</label>
-<input name="employeeName" required>
+<input id="employeeName" required>
 
 <label>Employee Email</label>
-<input name="employeeEmail" type="email" required>
+<input id="employeeEmail" type="email" required>
 
 <div class="row">
   <div>
     <label>Company</label>
-    <input name="company" required>
+    <input id="company" required>
   </div>
   <div>
     <label>Contractor</label>
-    <input name="contractor" required>
+    <input id="contractor" required>
   </div>
 </div>
 
 <label>Activity</label>
-<select name="activity" required>
+<select id="activity" required>
   <option value="">Select Activity</option>
   <option>Hot Work</option>
   <option>Confined Space</option>
   <option>Working at Height</option>
   <option>Electrical Work</option>
-  <option>Excavation</option>
-  <option>Heavy Equipment Lifting</option>
-  <option>Painting</option>
-  <option>Cleaning</option>
-  <option>Inspection</option>
 </select>
 
 <label>Location</label>
-<input name="location" required>
+<input id="location" required>
 
 <div class="row">
   <div>
     <label>Start Date</label>
-    <input name="startDate" type="date" required>
+    <input id="startDate" type="date" required>
   </div>
   <div>
     <label>End Date</label>
-    <input name="endDate" type="date" required>
+    <input id="endDate" type="date" required>
   </div>
 </div>
 
-<button type="submit">Submit Application</button>
+<button>Submit Application</button>
 
-<div id="okMsg" class="msg ok"></div>
-<div id="errMsg" class="msg err"></div>
-
+<div id="ok" class="msg ok"></div>
+<div id="err" class="msg err"></div>
 </form>
 </div>
 
 <script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyu1kcxywka4Djw_oaqItx2msA2ew99dGoH-vSkjapdt1Ej1hUbc2DztC_0IgeQaHvOvg/exec";
+const URL = "https://script.google.com/macros/s/AKfycbyu1kcxywka4Djw_oaqItx2msA2ew99dGoH-vSkjapdt1Ej1hUbc2DztC_0IgeQaHvOvg/exec";
 
-const form = document.getElementById("permitForm");
-const okMsg = document.getElementById("okMsg");
-const errMsg = document.getElementById("errMsg");
+const f = document.getElementById("f");
+const ok = document.getElementById("ok");
+const err = document.getElementById("err");
 
-form.addEventListener("submit", e => {
+f.onsubmit = async e => {
   e.preventDefault();
 
-  okMsg.style.display = "block";
-  okMsg.textContent = "Submitting work permit…";
-  errMsg.style.display = "none";
+  ok.style.display = "block";
+  ok.textContent = "Submitting…";
+  err.style.display = "none";
 
-  const formData = new FormData(form);
-  formData.append("action", "submitPermit");
+  const payload = {
+    action: "submitPermit",
+    employeeName: employeeName.value,
+    employeeEmail: employeeEmail.value,
+    company: company.value,
+    contractor: contractor.value,
+    activity: activity.value,
+    location: location.value,
+    startDate: startDate.value,
+    endDate: endDate.value
+  };
 
-  fetch(WEB_APP_URL, {
-    method: "POST",
-    mode: "no-cors",
-    body: formData
-  });
+  try {
+    const r = await fetch(URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
 
-  okMsg.textContent = "✅ Work Permit submitted successfully. Safety Orientation is required.";
-  form.reset();
-});
+    const j = await r.json();
+
+    if (!j.ok) throw j.error;
+
+    ok.textContent =
+      `✅ Submitted | Request ID: ${j.requestId} | Risk: ${j.riskLevel}`;
+
+    f.reset();
+  } catch (e) {
+    err.style.display = "block";
+    err.textContent = "❌ Submission failed: " + e;
+  }
+};
 </script>
-
 </body>
 </html>
