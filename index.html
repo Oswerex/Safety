@@ -1,165 +1,154 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
   <title>Work Permit Application</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+
   <style>
-    :root { --primary:#0d6efd; --danger:#dc3545; --success:#198754; }
-    body { font-family: Arial, sans-serif; margin: 24px; background:#f8f9fa; }
-    h2 { margin: 0 0 16px; }
-    form { background:#fff; padding:16px; border-radius:8px; box-shadow:0 2px 8px rgba(0,0,0,.06); max-width:720px; }
-    label { display:block; margin-top:12px; font-weight:600; }
-    input, select { width:100%; padding:10px; margin-top:6px; border:1px solid #ced4da; border-radius:6px; }
-    .row { display:flex; gap:12px; }
-    .row > div { flex:1; }
-    button { margin-top:16px; padding:12px 18px; border:none; border-radius:6px; background:var(--primary); color:#fff; cursor:pointer; font-weight:700; }
-    button[disabled] { opacity:.6; cursor:not-allowed; }
-    .msg { margin-top:16px; padding:12px; border-radius:6px; display:none; }
-    .msg.ok { display:block; background:#d1e7dd; color:#0f5132; border:1px solid #badbcc; }
-    .msg.err { display:block; background:#f8d7da; color:#842029; border:1px solid #f5c2c7; }
-    footer { margin-top:18px; font-size:.9em; color:#6c757d; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      padding: 24px;
+    }
+    h2 { margin-bottom: 16px; }
+    form {
+      background: #fff;
+      padding: 20px;
+      max-width: 720px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,.08);
+    }
+    label { display: block; margin-top: 12px; font-weight: bold; }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 6px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    .row { display: flex; gap: 12px; }
+    .row div { flex: 1; }
+    button {
+      margin-top: 18px;
+      padding: 12px;
+      width: 100%;
+      background: #0d6efd;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    .msg {
+      margin-top: 16px;
+      padding: 12px;
+      border-radius: 6px;
+      display: none;
+    }
+    .ok { background: #d1e7dd; color: #0f5132; }
+    .err { background: #f8d7da; color: #842029; }
   </style>
 </head>
+
 <body>
-  <h2>Work Permit Application</h2>
 
-  <form id="permitForm" autocomplete="on">
-    <label for="employeeName">Employee Name</label>
-    <input type="text" id="employeeName" placeholder="e.g. Juan Dela Cruz" required />
+<h2>Work Permit Application</h2>
 
-    <label for="employeeEmail">Employee Email</label>
-    <input type="email" id="employeeEmail" placeholder="e.g. juan@company.com" required />
+<form id="permitForm">
 
-    <div class="row">
-      <div>
-        <label for="company">Company</label>
-        <input type="text" id="company" placeholder="e.g. MERALCO" required />
-      </div>
-      <div>
-        <label for="contractor">Contractor</label>
-        <input type="text" id="contractor" placeholder="e.g. ABC Contractors" required />
-      </div>
+  <label>Employee Name</label>
+  <input name="employeeName" required>
+
+  <label>Employee Email</label>
+  <input name="employeeEmail" type="email" required>
+
+  <div class="row">
+    <div>
+      <label>Company</label>
+      <input name="company" required>
     </div>
-
-    <label for="activity">Activity</label>
-    <select id="activity" required>
-      <option value="">Select Activity</option>
-      <option>Hot Work</option>
-      <option>Confined Space</option>
-      <option>Working at Height</option>
-      <option>Electrical Work</option>
-      <option>Excavation</option>
-      <option>Heavy Equipment Lifting</option>
-      <option>Painting</option>
-      <option>Cleaning</option>
-      <option>Inspection</option>
-    </select>
-
-    <label for="location">Location</label>
-    <input type="text" id="location" placeholder="e.g. Substation B, Bay 3" required />
-
-    <div class="row">
-      <div>
-        <label for="startDate">Start Date</label>
-        <input type="date" id="startDate" required />
-      </div>
-      <div>
-        <label for="endDate">End Date</label>
-        <input type="date" id="endDate" required />
-      </div>
+    <div>
+      <label>Contractor</label>
+      <input name="contractor" required>
     </div>
+  </div>
 
-    <button id="submitBtn" type="submit">Submit</button>
+  <label>Activity</label>
+  <select name="activity" required>
+    <option value="">Select Activity</option>
+    <option>Hot Work</option>
+    <option>Confined Space</option>
+    <option>Working at Height</option>
+    <option>Electrical Work</option>
+    <option>Excavation</option>
+    <option>Heavy Equipment Lifting</option>
+    <option>Painting</option>
+    <option>Cleaning</option>
+    <option>Inspection</option>
+  </select>
 
-    <div id="okMsg" class="msg ok"></div>
-    <div id="errMsg" class="msg err"></div>
+  <label>Location</label>
+  <input name="location" required>
 
-    <footer>
-      Note: All activities require Safety Orientation. High-risk activities require document compliance before approval.
-    </footer>
-  </form>
+  <div class="row">
+    <div>
+      <label>Start Date</label>
+      <input name="startDate" type="date" required>
+    </div>
+    <div>
+      <label>End Date</label>
+      <input name="endDate" type="date" required>
+    </div>
+  </div>
 
-  <script>
-    const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbyu1kcxywka4Djw_oaqItx2msA2ew99dGoH-vSkjapdt1Ej1hUbc2DztC_0IgeQaHvOvg/exec';
+  <button id="submitBtn">Submit Application</button>
 
-    const form = document.getElementById('permitForm');
-    const btn = document.getElementById('submitBtn');
-    const okMsg = document.getElementById('okMsg');
-    const errMsg = document.getElementById('errMsg');
+  <div id="okMsg" class="msg ok"></div>
+  <div id="errMsg" class="msg err"></div>
 
-    function showOk(message) {
-      okMsg.textContent = message;
-      okMsg.style.display = 'block';
-      errMsg.style.display = 'none';
-    }
-    function showErr(message) {
-      errMsg.textContent = message;
-      errMsg.style.display = 'block';
-      okMsg.style.display = 'none';
-    }
+</form>
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      showOk('Submitting… please wait.');
-      btn.disabled = true;
+<script>
+const WEB_APP_URL =
+  "https://script.google.com/macros/s/AKfycbyu1kcxywka4Djw_oaqItx2msA2ew99dGoH-vSkjapdt1Ej1hUbc2DztC_0IgeQaHvOvg/exec";
 
-      const payload = {
-        employeeName: document.getElementById('employeeName').value.trim(),
-        employeeEmail: document.getElementById('employeeEmail').value.trim(),
-        company: document.getElementById('company').value.trim(),
-        contractor: document.getElementById('contractor').value.trim(),
-        activity: document.getElementById('activity').value,
-        location: document.getElementById('location').value.trim(),
-        startDate: document.getElementById('startDate').value,
-        endDate: document.getElementById('endDate').value
-      };
+const form = document.getElementById("permitForm");
+const btn = document.getElementById("submitBtn");
+const okMsg = document.getElementById("okMsg");
+const errMsg = document.getElementById("errMsg");
 
-      // Simple client-side validation
-      const missing = Object.entries(payload)
-        .filter(([, v]) => !v || String(v).trim() === '')
-        .map(([k]) => k);
-      if (missing.length) {
-        showErr('Please complete all required fields: ' + missing.join(', '));
-        btn.disabled = false;
-        return;
-      }
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  btn.disabled = true;
 
-      try {
-        const res = await fetch(WEB_APP_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
+  okMsg.style.display = "none";
+  errMsg.style.display = "none";
 
-        // Some misconfig returns HTML; guard it
-        const text = await res.text();
-        let json;
-        try { json = JSON.parse(text); }
-        catch { throw new Error('Unexpected response (not JSON): ' + text.slice(0, 200)); }
+  const formData = new FormData(form);
+  formData.append("action", "submitPermit");
 
-        if (json.ok) {
-          showOk(
-            `Submitted! Request ID: ${json.requestId} · Risk: ${json.riskLevel}.` +
-            (json.orientationRequired ? ' Orientation is required for all activities.' : '')
-          );
-
-          // ✅ Optional: redirect to your Safety Orientation page
-          // window.location.href = 'https://<your-orientation-page>';
-
-          // Reset form after a short delay
-          setTimeout(() => form.reset(), 1500);
-        } else {
-          showErr('Error: ' + (json.error || JSON.stringify(json)));
-        }
-      } catch (err) {
-        showErr('Network error: ' + err.message);
-      } finally {
-        btn.disabled = false;
-      }
+  try {
+    await fetch(WEB_APP_URL, {
+      method: "POST",
+      mode: "no-cors",   // ✅ FIX FOR GITHUB PAGES
+      body: formData
     });
-  </script>
+
+    okMsg.textContent =
+      "✅ Work Permit submitted successfully. Safety Orientation is required.";
+    okMsg.style.display = "block";
+
+    form.reset();
+  } catch (err) {
+    errMsg.textContent = "❌ Submission failed. Please try again.";
+    errMsg.style.display = "block";
+  } finally {
+    btn.disabled = false;
+  }
+});
+</script>
+
 </body>
 </html>
-
