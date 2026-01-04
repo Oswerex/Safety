@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Permit to Work</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Permit Dashboard</h2>
+
+<div class="stats">
+  <div>New: <span id="NEW">0</span></div>
+  <div>Approved: <span id="APPROVED">0</span></div>
+  <div>Rejected: <span id="REJECTED">0</span></div>
+  <div>Revoked: <span id="REVOKED">0</span></div>
+  <div>Closed: <span id="CLOSED">0</span></div>
+</div>
+
+<hr>
+
+<h3>Apply Work Permit</h3>
+<input id="applicant" placeholder="Applicant Name">
+<input id="workType" placeholder="Work Type">
+<input id="location" placeholder="Location">
+<select id="risk">
+  <option>Low</option>
+  <option>High</option>
+</select>
+<button onclick="submitPermit()">Submit</button>
+
+<hr>
+
+<h3>Permits</h3>
+<table id="table"></table>
+
+<script src="script.js"></script>
+</body>
+</html>

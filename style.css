@@ -1,0 +1,4 @@
+body { font-family: Arial; padding: 20px; }
+.stats div { display:inline-block; margin-right:15px; font-weight:bold; }
+table { border-collapse: collapse; width:100%; }
+td, th { border:1px solid #ccc; padding:8px; }
